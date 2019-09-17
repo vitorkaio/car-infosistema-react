@@ -2,6 +2,7 @@ import { filter, mergeMap } from 'rxjs/operators';
 import * as typeActions from './typeActions';
 import * as carsActions from './actions';
 import * as carsApiService from 'services/carsApiService';
+import * as services from 'services/services';
 
 // ***************************** READ CARS *****************************
 
@@ -37,7 +38,7 @@ export const createCarsEpic = (action$, _) => action$.pipe(
         }
       }
       else {
-        return carsActions.createCarsFail(newCar.data)
+        return carsActions.createCarsFail(services.formatErrors(newCar.data))
       }
     }
   }),
@@ -88,7 +89,7 @@ export const updateCarsEpic = (action$, _) => action$.pipe(
         }
       }
       else {
-        return carsActions.updateCarsFail(res.data)
+        return carsActions.updateCarsFail(services.formatErrors(res.data))
       }
     }
   }),

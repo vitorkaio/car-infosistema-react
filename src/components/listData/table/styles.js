@@ -14,4 +14,5 @@ export const Container = styled.div`
 export const IconClick = styled.span`
   cursor: pointer;
   margin: 0.3rem;
+  visibility: ${props => props.isActive ? 'hidden' : 'visible'};
 `;

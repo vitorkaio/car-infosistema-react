@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, IconClick } from './styles';
 import { Icon, Table, Popup, Button} from 'semantic-ui-react'
 
-export default function table({ cars, editCar, deleteCar, deleteCarLoad }) {
+export default function table({ cars, editCar, deleteCar, deleteCarLoad, selectedCar }) {
   return (
     <Container>
       <Table basic='very' celled  singleLine>
@@ -21,7 +21,7 @@ export default function table({ cars, editCar, deleteCar, deleteCarLoad }) {
           cars.map((item, key) => {
             return (
                 <Table.Body key={key}>
-                  <Table.Row>
+                  <Table.Row active={selectedCar && selectedCar._id === item._id}>
                     <Table.Cell>{item.board}</Table.Cell>
                     <Table.Cell>{item.chassis}</Table.Cell>
                     <Table.Cell>{item.renavam}</Table.Cell>
@@ -35,7 +35,7 @@ export default function table({ cars, editCar, deleteCar, deleteCarLoad }) {
                           position='top center' 
                         />
                       </IconClick>
-                      <IconClick onClick={() => deleteCar(item._id)}>
+                      <IconClick onClick={() => deleteCar(item._id)} isActive={selectedCar && selectedCar._id === item._id}>
                         <Popup content='Deletar' 
                           trigger={<Button icon size="mini" circular color="red"><Icon name='delete' disabled={deleteCarLoad} /></Button>} 
                           position='top center' 
