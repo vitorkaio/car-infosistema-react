@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  padding: 0.7rem 0.5rem;
+  padding: 0.7rem 1rem;
   & > .ui.table thead tr:first-child > th {
     position: sticky !important;
     top: 0;

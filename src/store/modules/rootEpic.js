@@ -1,8 +1,9 @@
 import { combineEpics } from 'redux-observable';
-import { carsEpic } from './cars/epics';
+import { carsEpic, createCarsEpic } from './cars/epics';
 
 const epics = [
-  carsEpic
+  carsEpic,
+  createCarsEpic
 ];
 
 const epicsRoots = combineEpics(...epics);

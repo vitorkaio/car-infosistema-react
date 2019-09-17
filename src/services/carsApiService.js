@@ -10,3 +10,19 @@ export const getCars = async () => {
   }
   else return null;
 }
+
+
+export const createCar = async (newCar) => {
+  try {
+    const res = await axios.post(url, newCar)
+    console.log(res)
+    if (res) {
+      return res.data
+    }
+    else return null;
+  } 
+  catch (err) {
+    // console.log(err.response.data.data)
+    return err.response.data;
+  }
+}
