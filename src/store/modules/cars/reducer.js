@@ -143,7 +143,6 @@ const carsReducer = (state = carsInitial, action) => {
         draft.updateCarMsg = null;
         draft.updateCarLoad = false;
         draft.updateCarError = false;
-        draft.selectedCar = null;
       })
 
     default:

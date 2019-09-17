@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux';
 import * as carsActions from 'store/modules/cars/actions';
 // import InputMask from 'react-input-mask';
 
-const Form = ({ carsReducer, createCarsRequest, createCarsReset }) => {
+const Form = ({ carsReducer, createCarsRequest, createCarsReset, updateCarsRequest, updateCarsResete }) => {
 
   const [control, setControl] = useState({
     board: {
@@ -53,6 +53,7 @@ const Form = ({ carsReducer, createCarsRequest, createCarsReset }) => {
 
     // Se for true é pq houve um erro, reseta os campos
     if (carsReducer.createCarError) createCarsReset()
+    if (carsReducer.updateCarError) updateCarsResete()
 
     setControl(produce(control, draft => {
       draft[type].value = data
@@ -76,22 +77,23 @@ const Form = ({ carsReducer, createCarsRequest, createCarsReset }) => {
   }, [control]);
 
   const resetFields = useCallback(() => {
-    setControl(produce(control, draft => {
-      for (let item in control) {
-        if (item === 'validateForm' && carsReducer.createCarSuccess) {
+    console.log('reset')
+    setControl(prev => { return produce(prev, draft => {
+      for (let item in prev) {
+        if (item === 'validateForm') {
           draft[item] = false
         }
-        else if(carsReducer.createCarSuccess) {
+        else {
           draft[item].value = ''
         }
       }
-    }))
-  }, [control, carsReducer.createCarSuccess]);
+    })})
+  }, []);
 
 
   const updateCar = useCallback(() => {
-    setControl(produce(control, draft => {
-      for (let item in control) {
+    setControl(pre => { return produce(pre, draft => {
+      for (let item in pre) {
         if (item === 'validateForm') {
           draft[item] = true
         }
@@ -99,8 +101,8 @@ const Form = ({ carsReducer, createCarsRequest, createCarsReset }) => {
           draft[item].value = carsReducer.selectedCar[item]
         }
       }
-    }))
-  }, [control, carsReducer.selectedCar]);
+    })})
+  }, [carsReducer.selectedCar]);
 
 
   useEffect(() => {
@@ -113,6 +115,12 @@ const Form = ({ carsReducer, createCarsRequest, createCarsReset }) => {
       createCarsReset()
     }
   }, [carsReducer.createCarSuccess, resetFields, createCarsReset])
+
+  useEffect(() => {
+    if (carsReducer.selectedCar === null) {
+      resetFields()
+    }
+  }, [carsReducer.selectedCar, resetFields])
 
 
   useEffect(() => {
@@ -134,8 +142,22 @@ const Form = ({ carsReducer, createCarsRequest, createCarsReset }) => {
     event.preventDefault()
   }
 
+  const handlerUpdateSubmit = (event) => {
+    const newCar = {
+      id: carsReducer.selectedCar._id,
+      board: control.board.value,
+      chassis: control.chassis.value,
+      renavam: control.renavam.value,
+      model: control.model.value,
+      brand: control.brand.value,
+      year: control.year.value
+    }
+    updateCarsRequest(newCar);
+    event.preventDefault()
+  }
+
   return (
-    <Container onSubmit={handlerSubmit}>
+    <Container onSubmit={carsReducer.selectedCar ? handlerUpdateSubmit : handlerSubmit}>
       <InputCss>
         <Input label='Placa' 
           placeholder='Digite a placa' 
@@ -205,11 +227,12 @@ const Form = ({ carsReducer, createCarsRequest, createCarsReset }) => {
 
       <SubmitButton>
         {
-          carsReducer.createCarError
+          carsReducer.createCarError || carsReducer.updateCarMsg
           ?
-          <span>{carsReducer.createCarMsg}</span>
+          <span>{carsReducer.createCarMsg ? carsReducer.createCarMsg : carsReducer.updateCarMsg}</span>
           :
-          <Button primary fluid disabled={!control.validateForm} loading={carsReducer.createCarLoad}>
+          <Button primary fluid disabled={!control.validateForm} 
+            loading={carsReducer.createCarLoad || carsReducer.updateCarLoad}>
             {
               carsReducer.selectedCar
               ?

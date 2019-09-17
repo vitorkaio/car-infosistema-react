@@ -79,16 +79,16 @@ export const updateCarsEpic = (action$, _) => action$.pipe(
 
     const { payload } = action;
 
-    if (payload.id) {
-      const res = await carsApiService.deleteCar(payload.id)
+    if (payload.car) {
+      const res = await carsApiService.updateCar(payload.car, payload.car.id)
       if (res.code === 200) {
         const cars = await carsApiService.getCars()
         if (cars.code === 200) {
-          return carsActions.deleteCarsSuccess(cars.data, null);
+          return carsActions.updateCarsSuccess(cars.data, null);
         }
       }
       else {
-        return carsActions.deleteCarsFail(res.data)
+        return carsActions.updateCarsFail(res.data)
       }
     }
   }),

@@ -42,3 +42,20 @@ export const deleteCar = async (id) => {
     return err.response.data;
   }
 }
+
+
+// ***************************** Update CAR *****************************
+
+export const updateCar = async (newCar, id) => {
+  delete newCar.id
+  try {
+    const res = await axios.patch(`${url}/${id}`, newCar)
+    if (res) {
+      return res.data
+    }
+    else return null;
+  } 
+  catch (err) {
+    return err.response.data;
+  }
+}

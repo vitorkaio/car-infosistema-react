@@ -5,7 +5,7 @@ import { Icon, Table, Popup, Button} from 'semantic-ui-react'
 export default function table({ cars, editCar, deleteCar, deleteCarLoad }) {
   return (
     <Container>
-      <Table basic='very' celled  singleLine definition>
+      <Table basic='very' celled  singleLine>
         <Table.Header fullWidth>
           <Table.Row>
             <Table.HeaderCell >Placa</Table.HeaderCell>
