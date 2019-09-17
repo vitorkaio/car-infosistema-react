@@ -17,7 +17,7 @@ export const Content = styled.div`
   align-items: center;
 
   & > div:last-child {
-    margin-left: 8rem;
+    margin-left: 4rem;
   }
 
 `;
