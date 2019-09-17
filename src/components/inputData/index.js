@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, Header, Content } from './styles';
 import { Button } from 'semantic-ui-react'
+import FormCars from 'components/form/FormCars'
 
 export default function InputData() {
 
@@ -10,7 +11,7 @@ export default function InputData() {
         <span>Adicionar veículo</span>
       </Header>
       <Content>
-        <span>Content</span>
+        <FormCars/>
       </Content>
     </Container>
   );
