@@ -77,7 +77,6 @@ const Form = ({ carsReducer, createCarsRequest, createCarsReset, updateCarsReque
   }, [control]);
 
   const resetFields = useCallback(() => {
-    console.log('reset')
     setControl(prev => { return produce(prev, draft => {
       for (let item in prev) {
         if (item === 'validateForm') {

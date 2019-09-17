@@ -23,7 +23,7 @@ const ListData = ({ carsReducer, carsRequest, deleteCarsRequest, selectCar }) =>
     deleteCarsRequest(id)
   }
 
-  const { load, cars, deleteCarLoad, selectedCar } = carsReducer
+  const { load, cars, deleteCarLoad, selectedCar, deleteCarId } = carsReducer
 
   return (
     <Container>
@@ -44,6 +44,7 @@ const ListData = ({ carsReducer, carsRequest, deleteCarsRequest, selectCar }) =>
               deleteCar={deleteCarHandler} 
               deleteCarLoad={deleteCarLoad}
               selectedCar={selectedCar}
+              deleteCarId={deleteCarId}
             />
           </Cars>
         }

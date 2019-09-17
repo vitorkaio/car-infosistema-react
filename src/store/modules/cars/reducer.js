@@ -11,6 +11,7 @@ const carsInitial = {
   createCarLoad: false,
   createCarError: false,
 
+  deleteCarId: null,
   deleteCarMsg: null,
   deleteCarLoad: false,
   deleteCarError: false,
@@ -85,6 +86,7 @@ const carsReducer = (state = carsInitial, action) => {
       return produce(state, draft => {
         draft.deleteCarLoad = true;
         draft.deleteCarError = false;
+        draft.deleteCarId = action.payload.id;
       });
 
     case typeActions.CARS_DELETE_SUCCESS:
@@ -93,6 +95,7 @@ const carsReducer = (state = carsInitial, action) => {
         draft.cars = action.payload.cars;
         draft.deleteCarLoad = false;
         draft.deleteCarError = false;
+        draft.deleteCarId = null;
       })
 
     case typeActions.CARS_DELETE_FAIL:
@@ -100,6 +103,7 @@ const carsReducer = (state = carsInitial, action) => {
         draft.deleteCarMsg = action.payload.msg;
         draft.deleteCarLoad = false;
         draft.deleteCarError = true;
+        draft.deleteCarId = null;
       })
 
     case typeActions.CARS_DELETE_RESET:
@@ -107,6 +111,7 @@ const carsReducer = (state = carsInitial, action) => {
         draft.deleteCarMsg = null;
         draft.deleteCarLoad = false;
         draft.deleteCarError = false;
+        draft.deleteCarId = null;
       })
 
     // *************************************** UPDATE ***************************************

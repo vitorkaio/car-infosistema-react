@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, IconClick } from './styles';
 import { Icon, Table, Popup, Button} from 'semantic-ui-react'
 
-export default function table({ cars, editCar, deleteCar, deleteCarLoad, selectedCar }) {
+export default function table({ cars, editCar, deleteCar, deleteCarLoad, selectedCar, deleteCarId }) {
   return (
     <Container>
       <Table basic='very' celled  singleLine>
@@ -36,10 +36,19 @@ export default function table({ cars, editCar, deleteCar, deleteCarLoad, selecte
                         />
                       </IconClick>
                       <IconClick onClick={() => deleteCar(item._id)} isActive={selectedCar && selectedCar._id === item._id}>
-                        <Popup content='Deletar' 
-                          trigger={<Button icon size="mini" circular color="red"><Icon name='delete' disabled={deleteCarLoad} /></Button>} 
+                        {
+                          deleteCarId === item._id && deleteCarLoad
+                          ?
+                          <Icon name='spinner' size='large' loading/>
+                          :
+                          <Popup content='Deletar' 
+                          trigger={
+                            <Button icon size="mini" circular color="red">
+                              <Icon name='delete' loading={deleteCarId === item._id && deleteCarLoad} />
+                            </Button>} 
                           position='top center' 
                         />
+                        }
                       </IconClick>
                       </Table.Cell>
                   </Table.Row>
