@@ -7,8 +7,19 @@ const carsInitial = {
   error: false,
 
   createCarMsg: null,
+  createCarSuccess: false,
   createCarLoad: false,
   createCarError: false,
+
+  deleteCarMsg: null,
+  deleteCarLoad: false,
+  deleteCarError: false,
+
+  selectedCar: null,
+
+  updateCarMsg: null,
+  updateCarLoad: false,
+  updateCarError: false,
 
 };
 
@@ -35,9 +46,9 @@ const carsReducer = (state = carsInitial, action) => {
         draft.error = true;
       })
 
-      // *************************************** CREATE ***************************************
+    // *************************************** CREATE ***************************************
 
-      case typeActions.CARS_CREATE_REQUEST:
+    case typeActions.CARS_CREATE_REQUEST:
       return produce(state, draft => {
         draft.createCarLoad = true;
         draft.createCarError = false;
@@ -49,6 +60,7 @@ const carsReducer = (state = carsInitial, action) => {
         draft.cars = action.payload.cars;
         draft.createCarLoad = false;
         draft.createCarError = false;
+        draft.createCarSuccess = true;
       })
 
     case typeActions.CARS_CREATE_FAIL:
@@ -56,6 +68,82 @@ const carsReducer = (state = carsInitial, action) => {
         draft.createCarMsg = action.payload.msg;
         draft.createCarLoad = false;
         draft.createCarError = true;
+        draft.createCarSuccess = false;
+      })
+
+    case typeActions.CARS_CREATE_RESET:
+      return produce(state, draft => {
+        draft.createCarMsg = null;
+        draft.createCarLoad = false;
+        draft.createCarError = false;
+        draft.createCarSuccess = false;
+      })
+
+    // *************************************** DELETE ***************************************
+
+    case typeActions.CARS_DELETE_REQUEST:
+      return produce(state, draft => {
+        draft.deleteCarLoad = true;
+        draft.deleteCarError = false;
+      });
+
+    case typeActions.CARS_DELETE_SUCCESS:
+      return produce(state, draft => {
+        draft.deleteCarMsg = action.payload.msg;
+        draft.cars = action.payload.cars;
+        draft.deleteCarLoad = false;
+        draft.deleteCarError = false;
+      })
+
+    case typeActions.CARS_DELETE_FAIL:
+      return produce(state, draft => {
+        draft.deleteCarMsg = action.payload.msg;
+        draft.deleteCarLoad = false;
+        draft.deleteCarError = true;
+      })
+
+    case typeActions.CARS_DELETE_RESET:
+      return produce(state, draft => {
+        draft.deleteCarMsg = null;
+        draft.deleteCarLoad = false;
+        draft.deleteCarError = false;
+      })
+
+    // *************************************** UPDATE ***************************************
+
+    case typeActions.CARS_SELECTED:
+      return produce(state, draft => {
+        draft.selectedCar = action.payload.car;
+      });
+    
+    case typeActions.CARS_UPDATE_REQUEST:
+      return produce(state, draft => {
+        draft.updateCarLoad = true;
+        draft.updateCarError = false;
+      });
+
+    case typeActions.CARS_UPDATE_SUCCESS:
+      return produce(state, draft => {
+        draft.updateCarMsg = action.payload.msg;
+        draft.cars = action.payload.cars;
+        draft.updateCarLoad = false;
+        draft.updateCarError = false;
+        draft.selectedCar = null;
+      })
+
+    case typeActions.CARS_UPDATE_FAIL:
+      return produce(state, draft => {
+        draft.updateCarMsg = action.payload.msg;
+        draft.updateCarLoad = false;
+        draft.updateCarError = true;
+      })
+
+    case typeActions.CARS_UPDATE_RESET:
+      return produce(state, draft => {
+        draft.updateCarMsg = null;
+        draft.updateCarLoad = false;
+        draft.updateCarError = false;
+        draft.selectedCar = null;
       })
 
     default:

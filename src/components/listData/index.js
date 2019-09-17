@@ -6,7 +6,7 @@ import * as carsActions from 'store/modules/cars/actions';
 import { Icon } from 'semantic-ui-react';
 import Table from './table';
 
-const ListData = ({ carsReducer, carsRequest }) => {
+const ListData = ({ carsReducer, carsRequest, deleteCarsRequest, selectCar }) => {
 
   useEffect(() => {
     const requestCars = async () => {
@@ -16,10 +16,14 @@ const ListData = ({ carsReducer, carsRequest }) => {
   }, [carsRequest])
 
   const editHandler = (item) => {
-    console.log(item);
+    selectCar(item)
   } 
 
-  const { load, cars } = carsReducer
+  const deleteCarHandler = (id) => {
+    deleteCarsRequest(id)
+  }
+
+  const { load, cars, deleteCarLoad } = carsReducer
 
   return (
     <Container>
@@ -35,7 +39,10 @@ const ListData = ({ carsReducer, carsRequest }) => {
           </LoadState>
           :
           <Cars>
-            <Table cars={cars} editCar={editHandler} />
+            <Table cars={cars} 
+              editCar={editHandler} 
+              deleteCar={deleteCarHandler} 
+              deleteCarLoad={deleteCarLoad} />
           </Cars>
         }
       </Content>

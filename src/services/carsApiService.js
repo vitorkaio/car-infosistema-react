@@ -11,11 +11,11 @@ export const getCars = async () => {
   else return null;
 }
 
+// ***************************** CREATE CAR *****************************
 
 export const createCar = async (newCar) => {
   try {
     const res = await axios.post(url, newCar)
-    console.log(res)
     if (res) {
       return res.data
     }
@@ -23,6 +23,22 @@ export const createCar = async (newCar) => {
   } 
   catch (err) {
     // console.log(err.response.data.data)
+    return err.response.data;
+  }
+}
+
+
+// ***************************** DELETE CAR *****************************
+
+export const deleteCar = async (id) => {
+  try {
+    const res = await axios.delete(`${url}/${id}`)
+    if (res) {
+      return res.data
+    }
+    else return null;
+  } 
+  catch (err) {
     return err.response.data;
   }
 }

@@ -2,13 +2,13 @@ import React from 'react';
 import { Container, IconClick } from './styles';
 import { Icon, Table, Popup, Button} from 'semantic-ui-react'
 
-export default function table({ cars, editCar }) {
+export default function table({ cars, editCar, deleteCar, deleteCarLoad }) {
   return (
     <Container>
-      <Table basic='very' celled collapsing >
-        <Table.Header>
+      <Table basic='very' celled  singleLine definition>
+        <Table.Header fullWidth>
           <Table.Row>
-            <Table.HeaderCell>Placa</Table.HeaderCell>
+            <Table.HeaderCell >Placa</Table.HeaderCell>
             <Table.HeaderCell>Chassi</Table.HeaderCell>
             <Table.HeaderCell>Renavam</Table.HeaderCell>
             <Table.HeaderCell>Modelo</Table.HeaderCell>
@@ -35,9 +35,9 @@ export default function table({ cars, editCar }) {
                           position='top center' 
                         />
                       </IconClick>
-                      <IconClick>
+                      <IconClick onClick={() => deleteCar(item._id)}>
                         <Popup content='Deletar' 
-                          trigger={<Button icon size="mini" circular color="red"><Icon name='delete' /></Button>} 
+                          trigger={<Button icon size="mini" circular color="red"><Icon name='delete' disabled={deleteCarLoad} /></Button>} 
                           position='top center' 
                         />
                       </IconClick>
