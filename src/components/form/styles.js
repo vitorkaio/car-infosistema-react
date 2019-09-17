@@ -29,5 +29,20 @@ export const SubmitButton = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
 
+
+export const FormError = styled.div`
+  margin-bottom: 0.9rem;
+  flex: 1;
+  width: 50%;
+  padding: 0 0.6rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & > span {
+    color: red;
+  }
 `;

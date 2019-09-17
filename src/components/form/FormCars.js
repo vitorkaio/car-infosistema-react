@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Container, InputCss, SubmitButton } from './styles';
+import { Container, InputCss, SubmitButton, FormError } from './styles';
 import { Input, Button } from 'semantic-ui-react';
 import { produce } from 'immer';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as carsActions from 'store/modules/cars/actions';
-// import InputMask from 'react-input-mask';
+import InputMask from 'react-input-mask';
 
-const Form = ({ carsReducer, createCarsRequest, createCarsReset, updateCarsRequest, updateCarsResete }) => {
+const Form = ({ carsReducer, createCarsRequest, createCarsReset, updateCarsRequest, updateCarsResete, setTitleUpdate, selectCar }) => {
 
   const [control, setControl] = useState({
     board: {
@@ -124,10 +124,12 @@ const Form = ({ carsReducer, createCarsRequest, createCarsReset, updateCarsReque
 
 
   useEffect(() => {
+    setTitleUpdate(false)
     if (carsReducer.selectedCar) {
+      setTitleUpdate(true)
       updateCar()
     }
-  }, [carsReducer.selectedCar, updateCar])
+  }, [carsReducer.selectedCar, setTitleUpdate, updateCar])
 
   const handlerSubmit = (event) => {
     const newCar = {
@@ -156,36 +158,36 @@ const Form = ({ carsReducer, createCarsRequest, createCarsReset, updateCarsReque
     event.preventDefault()
   }
 
+
+  const cancleHandlerForm = () => {
+    resetFields()
+    selectCar(null)
+  }
+
   return (
     <Container onSubmit={carsReducer.selectedCar ? handlerUpdateSubmit : handlerSubmit}>
       <InputCss>
-        <Input label='Placa' 
-          placeholder='Digite a placa' 
-          size="small" 
-          fluid 
-          onChange={(e) => controlInputHandler(e.target.value, 'board')}
-          value={control.board.value}
-        />
+        <InputMask mask={control.board.isValid.mask} 
+          value={control.board.value} 
+          onChange={(e) => controlInputHandler(e.target.value, 'board')}>
+          {(inputProps) => <Input {...inputProps} label='Placa' placeholder='AAA-9999' size="small" fluid />}
+        </InputMask>
       </InputCss>
 
       <InputCss>
-        <Input label='Chassi' 
-          placeholder='Digite o chassi' 
-          size="small" 
-          fluid 
-          onChange={(e) => controlInputHandler(e.target.value, 'chassis')}
-          value={control.chassis.value}
-        />
+        <InputMask mask={control.chassis.isValid.mask} 
+          value={control.chassis.value} 
+          onChange={(e) => controlInputHandler(e.target.value, 'chassis')}>
+          {(inputProps) => <Input {...inputProps} label='Chassi' placeholder='9AA999AA99A999999' size="small" fluid />}
+        </InputMask>
       </InputCss>
 
       <InputCss>
-        <Input label='Renavam' 
-          placeholder='Digite o renavam' 
-          size="small" 
-          fluid 
-          onChange={(e) => controlInputHandler(e.target.value, 'renavam')}
-          value={control.renavam.value}
-        />
+        <InputMask mask={control.renavam.isValid.mask} 
+          value={control.renavam.value} 
+          onChange={(e) => controlInputHandler(e.target.value, 'renavam')}>
+          {(inputProps) => <Input {...inputProps} label='Renavam' placeholder='99999999999' size="small" fluid />}
+        </InputMask>
       </InputCss>
 
       <InputCss>
@@ -209,13 +211,11 @@ const Form = ({ carsReducer, createCarsRequest, createCarsReset, updateCarsReque
       </InputCss>
 
       <InputCss>
-        <Input label='Ano' 
-          placeholder='Digite o ano' 
-          size="small" 
-          fluid 
-          onChange={(e) => controlInputHandler(e.target.value, 'year')}
-          value={control.year.value}
-        />
+        <InputMask mask={control.year.isValid.mask} 
+          value={control.year.value} 
+          onChange={(e) => controlInputHandler(e.target.value, 'year')}>
+          {(inputProps) => <Input {...inputProps} label='Ano' placeholder='Digite o Ano' size="small" fluid />}
+        </InputMask>
       </InputCss>
 
       {/* <InputCss>
@@ -225,12 +225,15 @@ const Form = ({ carsReducer, createCarsRequest, createCarsReset, updateCarsReque
         </InputMask>
       </InputCss> */}
 
-      <SubmitButton>
-        {
-          carsReducer.createCarError || carsReducer.updateCarMsg
-          ?
+      <>
+      {
+        carsReducer.createCarError || carsReducer.updateCarMsg
+        ?
+        <FormError>
           <span>{carsReducer.createCarMsg ? carsReducer.createCarMsg : carsReducer.updateCarMsg}</span>
-          :
+        </FormError>
+        :        
+        <SubmitButton>
           <Button primary fluid disabled={!control.validateForm} 
             loading={carsReducer.createCarLoad || carsReducer.updateCarLoad}>
             {
@@ -241,8 +244,10 @@ const Form = ({ carsReducer, createCarsRequest, createCarsReset, updateCarsReque
               'Adicionar'
             }
           </Button>
-        }
+        <Button color='red' fluid onClick={cancleHandlerForm} type="button" >Cancelar</Button>
       </SubmitButton>
+      }
+      </>
       <input type="submit" value="Enviar" hidden />
     </Container>
   );
